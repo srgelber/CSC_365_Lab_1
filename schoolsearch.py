@@ -27,12 +27,12 @@ def command_S(studentList, command):
     if len(command) == 2:
         for student in studentList:
             if student.lName == command[1]:
-                print("Student: %s, %s, %d, %d | Teacher: %s, %s." % (student.lName,student.fName,
+                print("Student: %s, %s, %d, %d | Teacher: %s, %s" % (student.lName,student.fName,
                       int(student.grade),int(student.classroom),student.teacherlName,student.teacherfName))
-    elif len(command) == 3 and command[2] == "B":
+    elif len(command) == 3 and command[2] == 'B':
         for student in studentList:
             if student.lName == command[1]:
-                print("Student: %s, %s | Bus Route: %d." % (student.lName,student.fName,
+                print("Student: %s, %s | Bus Route: %d" % (student.lName,student.fName,
                       int(student.bus)))
     else:
         print("Invalid command.")
@@ -42,7 +42,7 @@ def command_T(studentList, command):
     if len(command) == 2:
         for student in studentList:
             if student.teacherlName == command[1]:
-                print("Student: %s, %s | Teacher: %s, %s." % (student.lName,student.fName,student.teacherlName,student.teacherfName))
+                print("Student: %s, %s | Teacher: %s, %s" % (student.lName,student.fName,student.teacherlName,student.teacherfName))
     else:
         print("Invalid command.")
 
@@ -54,12 +54,70 @@ def command_B(studentList, command):
                 print("Student: %s, %s, %d, %d" % (student.lName,student.fName,int(student.grade),int(student.classroom)))
     else:
         print("Invalid command.")
+
 def command_G(studentList, command):
-    print("not configured")
+    if len(command) == 2:
+        for student in studentList:
+            if student.grade == command[1]:
+                print("Student: %s, %s" % (student.lName,student.fName))
+        #add if there are zero students!!!!!
+    elif len(command) == 3 and command[2] == 'H':
+        max = []
+        for student in studentList:
+            if student.grade == command[1]:
+                if len(max) == 0:
+                    max.append(student)
+                else:
+                    if float(student.gpa) > float(max[0].gpa):
+                        max[0] = student
+        if len(max) == 0:
+            print("There are Zero students in grade %s" % command[1])
+        else:
+            print("Student with Highest GPA: %s, %s, %4.2f, %s, %s, %d" % (max[0].lName, max[0].fName,
+                float(max[0].gpa),max[0].teacherlName,max[0].teacherfName, int(max[0].bus)))
+
+    elif len(command) == 3 and command[2] == 'L':
+        min = []
+        for student in studentList:
+            if student.grade == command[1]:
+                if len(min) == 0:
+                    min.append(student)
+                else:
+                    if float(student.gpa) < float(min[0].gpa):
+                        min[0] = student
+        if len(min) == 0:
+            print("There are Zero students in grade %s" % command[1])
+        else:
+            print("Student with Lowest GPA: %s, %s, %4.2f, %s, %s, %d" % (min[0].lName, min[0].fName,
+                float(min[0].gpa),min[0].teacherlName,min[0].teacherfName, int(min[0].bus)))
+
+    else:
+        print("Invalid command.")
+
 def command_A(studentList, command):
-    print("not configured")
+    gpa_list = []
+    if len(command) == 2:
+        for student in studentList:
+            if student.grade == command[1]:
+                gpa_list.append(float(student.gpa))
+        if len(gpa_list) == 0:
+            print("There are zero students in grade %s" % command[1])
+        else:
+            average = sum(gpa_list)/len(gpa_list)
+            print("Grade: %d Average GPA: %4.2f" % (int(command[1]), average))
+
+    else:
+        print("Invalid command.")
 def command_I(studentList, command):
-    print("not configured")
+    if len(command) == 1:
+        for i in range(0,7):
+            count = 0
+            for student in studentList:
+                if int(student.grade) == i:
+                    count += 1
+            print("%d: %d" % (i,count))
+    else:
+        print("Invalid command.")
 
 
 def parseInput(studentList):
@@ -94,10 +152,12 @@ def main(argv):
         sys.exit()
     else:
         studentline = file.readline()
-
         while studentline:
             studentline = studentline.strip()
             student = studentline.split(",")
+            if len(student) != 8:
+                print("File format invalid...Incorrect number of columns. Exiting.")
+                sys.exit()
             studentList.append(Student(student[0],student[1],student[2], student[3],student[4],student[5], student[6],student[7]))
             studentline = file.readline()
         parseInput(studentList)

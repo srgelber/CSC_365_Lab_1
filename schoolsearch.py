@@ -157,6 +157,7 @@ def main(argv):
             student = studentline.split(",")
             if len(student) != 8:
                 print("File format invalid...Incorrect number of columns. Exiting.")
+                file.close()
                 sys.exit()
             studentList.append(Student(student[0],student[1],student[2], student[3],student[4],student[5], student[6],student[7]))
             studentline = file.readline()

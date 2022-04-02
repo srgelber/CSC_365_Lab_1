@@ -56,11 +56,14 @@ def command_B(studentList, command):
         print("Invalid command.")
 
 def command_G(studentList, command):
+    emptyflag = 0
     if len(command) == 2:
         for student in studentList:
             if student.grade == command[1]:
                 print("Student: %s, %s" % (student.lName,student.fName))
-        #add if there are zero students!!!!!
+                emptyflag = 1
+        if emptyflag == 0:
+            print("There are Zero students in grade %s" % command[1])
     elif len(command) == 3 and command[2] == 'H':
         max = []
         for student in studentList:

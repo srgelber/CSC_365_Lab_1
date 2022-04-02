@@ -23,7 +23,7 @@ class Student:
 
         self.teacherfName = teacherfname
 
-def commandS(studentList, command):
+def command_S(studentList, command):
     if len(command) == 2:
         for student in studentList:
             if student.lName == command[1]:
@@ -38,15 +38,27 @@ def commandS(studentList, command):
         print("Invalid command.")
 
 
-def commandT(studentList, command):
+def command_T(studentList, command):
+    if len(command) == 2:
+        for student in studentList:
+            if student.teacherlName == command[1]:
+                print("Student: %s, %s | Teacher: %s, %s." % (student.lName,student.fName,student.teacherlName,student.teacherfName))
+    else:
+        print("Invalid command.")
+
+
+def command_B(studentList, command):
+    if len(command) == 2:
+        for student in studentList:
+            if student.bus == command[1]:
+                print("Student: %s, %s, %d, %d" % (student.lName,student.fName,int(student.grade),int(student.classroom)))
+    else:
+        print("Invalid command.")
+def command_G(studentList, command):
     print("not configured")
-def commandB(studentList, command):
+def command_A(studentList, command):
     print("not configured")
-def commandG(studentList, command):
-    print("not configured")
-def commandA(studentList, command):
-    print("not configured")
-def commandI(studentList, command):
+def command_I(studentList, command):
     print("not configured")
 
 
@@ -55,17 +67,17 @@ def parseInput(studentList):
     while(i != 'Q'):
         commands = i.split(" ")
         if commands[0] == "S:":
-            commandS(studentList, commands)
+            command_S(studentList, commands)
         elif commands[0] == "T:":
-            commandT(studentList, commands)
+            command_T(studentList, commands)
         elif commands[0] == "B:":
-            commandB(studentList, commands)
+            command_B(studentList, commands)
         elif commands[0] == "G:":
-            commandG(studentList, commands)
+            command_G(studentList, commands)
         elif commands[0] == "A:":
-            commandA(studentList, commands)
+            command_A(studentList, commands)
         elif commands[0] == "I":
-            commandI(studentList, commands)
+            command_I(studentList, commands)
         else:
             print("Invalid Command.")
 
@@ -75,16 +87,21 @@ def parseInput(studentList):
 
 def main(argv):
     studentList = []
-    file = open(argv[1], "r")
-    studentline = file.readline()
-
-    while studentline:
-        studentline = studentline.strip()
-        student = studentline.split(",")
-        studentList.append(Student(student[0],student[1],student[2], student[3],student[4],student[5], student[6],student[7]))
+    try:
+        file = open(argv[1], "r")
+    except OSError:
+        print("Could not open file: ", argv[1])
+        sys.exit()
+    else:
         studentline = file.readline()
-    parseInput(studentList)
-    file.close()
+
+        while studentline:
+            studentline = studentline.strip()
+            student = studentline.split(",")
+            studentList.append(Student(student[0],student[1],student[2], student[3],student[4],student[5], student[6],student[7]))
+            studentline = file.readline()
+        parseInput(studentList)
+        file.close()
 
 
 

@@ -3,6 +3,7 @@
 
 import sys
 
+#Student class containing each student's information
 class Student:
 
     def __init__(self, lastname, firstname, grade,
@@ -23,13 +24,14 @@ class Student:
 
         self.teacherfName = teacherfname
 
+#student command
 def command_S(studentList, command):
     if len(command) == 2:
         for student in studentList:
             if student.lName == command[1]:
                 print("Student: %s, %s, %d, %d | Teacher: %s, %s" % (student.lName,student.fName,
                       int(student.grade),int(student.classroom),student.teacherlName,student.teacherfName))
-    elif len(command) == 3 and command[2] == 'B':
+    elif len(command) == 3 and (command[2] == 'B' or command[2] == "Bus"):
         for student in studentList:
             if student.lName == command[1]:
                 print("Student: %s, %s | Bus Route: %d" % (student.lName,student.fName,
@@ -37,7 +39,7 @@ def command_S(studentList, command):
     else:
         print("Invalid command.")
 
-
+#teacher command
 def command_T(studentList, command):
     if len(command) == 2:
         for student in studentList:
@@ -46,7 +48,7 @@ def command_T(studentList, command):
     else:
         print("Invalid command.")
 
-
+#bus command
 def command_B(studentList, command):
     if len(command) == 2:
         for student in studentList:
@@ -55,6 +57,8 @@ def command_B(studentList, command):
     else:
         print("Invalid command.")
 
+
+#grade command
 def command_G(studentList, command):
     emptyflag = 0
     if len(command) == 2:
@@ -64,7 +68,7 @@ def command_G(studentList, command):
                 emptyflag = 1
         if emptyflag == 0:
             print("There are Zero students in grade %s" % command[1])
-    elif len(command) == 3 and command[2] == 'H':
+    elif len(command) == 3 and (command[2] == 'H' or command[2] == "High"):
         max = []
         for student in studentList:
             if student.grade == command[1]:
@@ -79,7 +83,7 @@ def command_G(studentList, command):
             print("Student with Highest GPA: %s, %s, %4.2f, %s, %s, %d" % (max[0].lName, max[0].fName,
                 float(max[0].gpa),max[0].teacherlName,max[0].teacherfName, int(max[0].bus)))
 
-    elif len(command) == 3 and command[2] == 'L':
+    elif len(command) == 3 and (command[2] == 'L' or command[2] == "Low"):
         min = []
         for student in studentList:
             if student.grade == command[1]:
@@ -97,6 +101,7 @@ def command_G(studentList, command):
     else:
         print("Invalid command.")
 
+#average command
 def command_A(studentList, command):
     gpa_list = []
     if len(command) == 2:
@@ -111,6 +116,8 @@ def command_A(studentList, command):
 
     else:
         print("Invalid command.")
+
+#info command
 def command_I(studentList, command):
     if len(command) == 1:
         for i in range(0,7):
@@ -122,23 +129,25 @@ def command_I(studentList, command):
     else:
         print("Invalid command.")
 
-
+#process user input
 def parseInput(studentList):
     i = input("> ")
-    while(i != 'Q'):
+    while(1):
         commands = i.split(" ")
-        if commands[0] == "S:":
+        if commands[0] == "S:" or commands[0] == "Student:":
             command_S(studentList, commands)
-        elif commands[0] == "T:":
+        elif commands[0] == "T:" or commands[0] == "Teacher:":
             command_T(studentList, commands)
-        elif commands[0] == "B:":
+        elif commands[0] == "B:" or commands[0] == "Bus:":
             command_B(studentList, commands)
-        elif commands[0] == "G:":
+        elif commands[0] == "G:" or commands[0] == "Grade:":
             command_G(studentList, commands)
-        elif commands[0] == "A:":
+        elif commands[0] == "A:" or commands[0] == "Average:":
             command_A(studentList, commands)
-        elif commands[0] == "I":
+        elif commands[0] == "I" or commands[0] == "Info":
             command_I(studentList, commands)
+        elif commands[0] == "Q" or commands[0] == "Quit":
+            break
         else:
             print("Invalid Command.")
 
